@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_upcomming_events"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Upcoming Events" />
+        <item
+            android:id="@+id/nav_completed_events"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Completed Events" />
+        <item
+            android:id="@+id/nav_city"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Search Events By City" />
+        <item
+            android:id="@+id/nav_data"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Search Events By Date" />
+    </group>
+</menu>
