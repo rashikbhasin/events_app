@@ -4,9 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.RequiresPermission;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -36,9 +35,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public String serverUrl()
+    {
+        return "http://192.168.3.3:8080/";
+    }
+
     static final String METHOD = "method";
     private SimpleAdapter adpt;
-    List<Events> result = new ArrayList<Events>();
+    List<Events> result = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,19 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        FloatingActionButton fab=(FloatingActionButton)findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent=new Intent(MainActivity.this,AddActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
 
 
@@ -72,27 +89,18 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 Events newsData = (Events) lView.getItemAtPosition(pos);
-                /*Intent i = new Intent(getApplicationContext(), NextActivity.class);
-                i.putExtra("key", newsData);
-                startActivity(i);*/
+//                Intent i = new Intent(MainActivity.this, ReadActivity.class);
+//                i.putExtra("key", newsData);
+//                startActivity(i);
+
+                Intent intent=new Intent(MainActivity.this, ReadActivity.class);
+                intent.putExtra("key",newsData);
+                startActivity(intent);
 
 
             }
         });
 
-
-
-
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -115,26 +123,39 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public void onRestart()
+    {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
+//
+//
+//
+//
+//
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -185,7 +206,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private class AsyncListViewLoader extends AsyncTask<String, Void, List<Events>> {
-        private final ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+        private ProgressDialog dialog = new ProgressDialog(MainActivity.this);
 
         @Override
         protected void onPostExecute(List<Events> result) {
@@ -202,10 +223,8 @@ public class MainActivity extends AppCompatActivity
             dialog.show();
         }
         private Events disp(String a1,String a2)  {
-            String name = a2;
-            String id = a1;
 
-            return new Events(name,id);
+            return new Events(a2, a1," "," "," "," ");
         }
         @Override
         protected List<Events> doInBackground(String... params) {
@@ -237,8 +256,9 @@ public class MainActivity extends AppCompatActivity
             }
             catch(Throwable t) {
                 t.printStackTrace();
+                return null;
             }
-            return null;
+
         }
 
 
@@ -248,8 +268,12 @@ public class MainActivity extends AppCompatActivity
         private Events convertEventName(JSONObject obj) throws JSONException {
             String name = obj.getString("name");
             String id = obj.getString("event_id");
+            String info = obj.getString("event_info");
+            String date = obj.getString("date");
+            String venue= obj.getString("venue");
+            String city = obj.getString("city");
 
-            return new Events(name,id);
+            return new Events(name,id,info,date,venue,city);
         }
 
     }
