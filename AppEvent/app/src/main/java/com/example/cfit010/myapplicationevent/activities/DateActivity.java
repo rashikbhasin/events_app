@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -30,6 +31,11 @@ public class DateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_activity);
 
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         Calendar c=Calendar.getInstance();
         mYear=c.get(Calendar.YEAR);
         mMonth=c.get(Calendar.MONTH);
@@ -49,6 +55,8 @@ public class DateActivity extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 
@@ -118,5 +126,18 @@ public class DateActivity extends AppCompatActivity {
         String url =  new HttpRequest().url;
         PostAsyncTask get_request = new PostAsyncTask(this,list_view, name,json_obj.toString());
         get_request.execute(url+"/"+method);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case android.R.id.home:
+                this.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
