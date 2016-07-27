@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,14 +15,20 @@ import java.net.URL;
 
 class PostJson extends AsyncTask<String ,Void,String> {
 
-//    TextView answer=(TextView)findViewById(R.id.output);
-
     private JSONObject mJson;
-    private TextView mPrintHere;
+    private TextView name;
+    private TextView info;
+    private TextView date;
+    private TextView venue;
+    private TextView city;
 
-    public PostJson(JSONObject json, TextView output) {
+    public PostJson(JSONObject json, TextView name, TextView info,TextView date,TextView venue,TextView city) {
         this.mJson = json;
-        this.mPrintHere = output;
+        this.name=name;
+        this.info=info;
+        this.date=date;
+        this.venue=venue;
+        this.city=city;
     }
 
     protected String doInBackground(String... urls) {
@@ -37,12 +42,8 @@ class PostJson extends AsyncTask<String ,Void,String> {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
 
-            //String input = "{\"event_id\":\"3\",\"name\":\"aamya\",\"event_info\":\"info 3\",\"date\":\"2019-07-02\",\"venue\":\"venue 3\",\"city\":\"mumbai\"}";
-
             OutputStream os = conn.getOutputStream();
 
-
-            //os.write(input.getBytes());
             os.write(mJson.toString().getBytes());
             os.flush();
 
@@ -51,9 +52,7 @@ class PostJson extends AsyncTask<String ,Void,String> {
                     (conn.getInputStream())));
 
             String x = "";
-            //System.out.println("Output from Server .... \n");
             while ((x = br.readLine()) != null) {
-                //System.out.println(output);
                 output = output + x;
             }
 
@@ -61,7 +60,6 @@ class PostJson extends AsyncTask<String ,Void,String> {
 
         } catch (IOException e) {
             return "";
-//            e.printStackTrace();
 
         }
         return output;
@@ -72,16 +70,18 @@ class PostJson extends AsyncTask<String ,Void,String> {
         try {
             JSONObject j = new JSONObject(output);
             if (j.length() == 1) {
-//                data = data + "Deleted Event With id:" + j.getString("Deleted");
-//                mPrintHere.setText(data);
+                return;
             } else {
-                data = data + "Name:  " + j.getString("name") + "\n" + "Event Info:  " + j.getString("event_info") + "\n" + "Date:  " + j.getString("date") + "\n" + "Venue:  " + j.getString("venue") + "\n" + "City:  " + j.getString("city");
-                mPrintHere.setText(data);
+//                data = data + "Name:  " + j.getString("name") + "\n" + "Event Info:  " + j.getString("event_info") + "\n" + "Date:  " + j.getString("date") + "\n" + "Venue:  " + j.getString("venue") + "\n" + "City:  " + j.getString("city");
+                name.setText("Name: "+j.getString("name"));
+                info.setText("Info: "+j.getString("event_info"));
+                date.setText("Date: "+j.getString("date"));
+                venue.setText("Venue: "+j.getString("venue"));
+                city.setText("City: "+j.getString("city"));
 
             }
         } catch (JSONException e) {
             return ;
-//            e.printStackTrace();
         }
 
     }

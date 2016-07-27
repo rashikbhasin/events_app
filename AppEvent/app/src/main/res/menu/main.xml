@@ -3,21 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.cfit012.actionbartry.MainActivity">
 
-    <!-- Location Found -->
     <item android:id="@+id/action_update"
         android:icon="@drawable/ic_edit_black_24dp"
         android:title="@string/action_update"
-        app:showAsAction="always" />
-    <!-- Not android:showAsAction it should be app:showAsAction -->
+        app:showAsAction="never" />
 
     <item android:id="@+id/action_delete"
         android:icon="@drawable/ic_remove_circle_black_24dp"
         android:title="@string/action_delete"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <!--android:orderInCategory="100"-->
 </menu>

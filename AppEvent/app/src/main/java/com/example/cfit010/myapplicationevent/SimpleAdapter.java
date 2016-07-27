@@ -52,9 +52,9 @@ public class SimpleAdapter extends ArrayAdapter<Events> {
 
         Events c = itemList.get(position);
         TextView text = (TextView) v.findViewById(R.id.name);
-        TextView id = (TextView) v.findViewById(R.id.id1);
+       // TextView id = (TextView) v.findViewById(R.id.id1);
         text.setText(c.getName());
-        id.setText(c.getId());
+       // id.setText(c.getId());
 
         return v;
 

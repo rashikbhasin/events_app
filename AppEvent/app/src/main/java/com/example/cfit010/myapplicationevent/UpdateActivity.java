@@ -1,14 +1,13 @@
 package com.example.cfit010.myapplicationevent;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,8 +15,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class UpdateActivity extends AppCompatActivity {
 
@@ -26,8 +23,22 @@ public class UpdateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
+
+        findViewById(R.id.add_event_id).setVisibility(View.GONE);
+
+
         Intent intent=getIntent();
         final String received=intent.getStringExtra("data");
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
 
         JSONObject reader;
@@ -53,27 +64,14 @@ public class UpdateActivity extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), "JSON Exception",Toast.LENGTH_LONG).show();
             return ;
-//            e.printStackTrace();
         }
-
-//                    json.put("event_id","3");
-
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 JSONObject json=new JSONObject();
-
-
                 try
                 {
-
-//                    json.put("name","aamya");
-//                    json.put("event_info","info 3");
-//                    json.put("date","2011-02-03");
-//                    json.put("venue","venue 3");
-//                    json.put("city","mumbai");
-
                     json.put("event_id",id.getText().toString());
                     json.put("name",name.getText().toString());
                     json.put("event_info",info.getText().toString());
@@ -85,14 +83,31 @@ public class UpdateActivity extends AppCompatActivity {
                 catch(JSONException e) {
                     Toast.makeText(getApplicationContext(), "JSON Exception",Toast.LENGTH_LONG).show();
                     return ;
-//                    e.printStackTrace();
                 }
-                String serverURL=(new MainActivity().serverUrl())+"update";
-                TextView answer=(TextView)findViewById(R.id.new_added);
-                PostJson postJson=new PostJson(json,answer);
+                String serverURL=(new HttpRequest().url)+"/update";
+                TextView show_name=(TextView)findViewById(R.id.read_name);
+                TextView show_date=(TextView)findViewById(R.id.read_date);
+                TextView show_info=(TextView)findViewById(R.id.read_info);
+                TextView show_venue=(TextView)findViewById(R.id.read_venue);
+                TextView show_city=(TextView)findViewById(R.id.read_city);
+                PostJson postJson=new PostJson(json,show_name,show_info,show_date,show_venue,show_city);
                 postJson.execute(serverURL);
 
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case android.R.id.home:
+                this.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

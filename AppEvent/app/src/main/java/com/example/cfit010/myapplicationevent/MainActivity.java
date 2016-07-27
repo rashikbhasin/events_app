@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresPermission;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -35,14 +36,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public String serverUrl()
-    {
-        return "http://192.168.3.3:8080/";
-    }
+//    public String serverUrl()
+//    {
+//        return "http://192.168.3.3:8080/";
+//    }
 
     static final String METHOD = "method";
     private SimpleAdapter adpt;
-    List<Events> result = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +71,9 @@ public class MainActivity extends AppCompatActivity
         adpt  = new SimpleAdapter(new ArrayList<Events>(), this);
         final ListView lView = (ListView) findViewById(R.id.listview);
 
-        String method = getIntent().getStringExtra("method");
+       // String method = getIntent().getStringExtra(METHOD);
 
-        if(method!=null) {
-            if (method.equals("upcoming"))
-                (new AsyncListViewLoader()).execute("http://192.168.3.3:8080/" + method);
-
-            else if (method.equals("completed"))
-                (new AsyncListViewLoader()).execute("http://192.168.3.3:8080/" + method);
-        }
-        else
-            (new AsyncListViewLoader()).execute("http://192.168.3.3:8080/events");
+        //(new AsyncListViewLoader()).execute("http://192.168.3.3:8080/events");
 
 //        (new AsyncListViewLoader()).execute("http://192.168.3.3:8080/completed");
 
@@ -114,48 +107,21 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        Log.d("CDA", "onBackPressed Called");
+        Intent setIntent = new Intent(Intent.ACTION_MAIN);
+        setIntent.addCategory(Intent.CATEGORY_HOME);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(setIntent);
     }
 
     @Override
-    public void onRestart()
+    public void onResume()
     {
-        super.onRestart();
-        finish();
-        startActivity(getIntent());
+        super.onResume();
+        adpt.clear();
+        (new AsyncListViewLoader()).execute(new HttpRequest().url+"/events");
     }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//
-//
-//
-//
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -164,15 +130,12 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_upcomming_events) {
-            // Handle the camera action
-            Intent intent = new Intent(this,MainActivity.class);//this,GetActivity.class
-            intent.putExtra(METHOD,"upcoming");
-            startActivity(intent);
+            adpt.clear();
+            (new AsyncListViewLoader()).execute((new HttpRequest().url)+"/upcoming");
 
         } else if (id == R.id.nav_completed_events) {
-            Intent intent = new Intent(this,MainActivity.class);
-            intent.putExtra(METHOD,"completed");
-            startActivity(intent);
+            adpt.clear();
+            (new AsyncListViewLoader()).execute((new HttpRequest().url)+"/completed");
 
         } else if (id == R.id.nav_city) {
             Intent intent = new Intent(this,FormActivity.class);
@@ -192,21 +155,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     private class AsyncListViewLoader extends AsyncTask<String, Void, List<Events>> {
         private ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+        List<Events> result = new ArrayList<>();
 
         @Override
         protected void onPostExecute(List<Events> result) {
@@ -219,13 +170,13 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("Downloading data From Events Server...");
-            dialog.show();
+//            dialog.setMessage("Downloading data From Events Server...");
+//            dialog.show();
         }
-        private Events disp(String a1,String a2)  {
-
-            return new Events(a2, a1," "," "," "," ");
-        }
+//        private Events disp(String a1,String a2)  {
+//
+//            return new Events(a2, a1," "," "," "," ");
+//        }
         @Override
         protected List<Events> doInBackground(String... params) {
 
@@ -247,7 +198,7 @@ public class MainActivity extends AppCompatActivity
                 String JSONResp = new String(baos.toByteArray());
 
                 JSONArray arr = new JSONArray(JSONResp);
-                result.add(disp("Event ID", "Event Name"));
+               // result.add(disp("Event ID", "Event Name"));
                 for (int i=0; i < arr.length(); i++) {
                     result.add(convertEventName(arr.getJSONObject(i)));
                 }
@@ -260,10 +211,6 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-
-
-
-
 
         private Events convertEventName(JSONObject obj) throws JSONException {
             String name = obj.getString("name");
