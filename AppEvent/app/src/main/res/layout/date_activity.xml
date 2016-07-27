@@ -26,7 +26,13 @@
         android:text="@string/search"
         android:id="@+id/search"
         android:layout_below="@+id/date"
-        android:onClick="openDateActivity"/>
+        android:onClick="openDateActivity"
+        android:textSize="@dimen/text_size"
+        android:textColor="@color/button_text"
+        android:paddingLeft="@dimen/text_size"
+        android:paddingRight="@dimen/text_size"
+        android:background="@color/colorPrimary"
+        android:layout_margin="@dimen/text_margin"/>
 
     <ListView
         android:id="@+id/listView"

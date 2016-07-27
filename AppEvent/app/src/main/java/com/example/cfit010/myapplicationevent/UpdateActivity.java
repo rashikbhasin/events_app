@@ -1,5 +1,7 @@
 package com.example.cfit010.myapplicationevent;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,8 +18,15 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public class UpdateActivity extends AppCompatActivity {
+
+    static final int DATE_DIALOG_ID = 0;
+    private int mYear,mMonth,mDay;
+    EditText mEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +50,28 @@ public class UpdateActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        Calendar c=Calendar.getInstance();
+        mYear=c.get(Calendar.YEAR);
+        mMonth=c.get(Calendar.MONTH);
+        mDay=c.get(Calendar.DAY_OF_MONTH);
+        mEditText = (EditText) findViewById(R.id.add_event_date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         JSONObject reader;
 
+        mEditText.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                showDialog(DATE_DIALOG_ID);
+
+            }
+        });
+
         Button button=(Button)findViewById(R.id.submit);
+        button.setText("UPDATE");
         final EditText id=(EditText)findViewById(R.id.add_event_id);
         final EditText name=(EditText)findViewById(R.id.add_event_name);
         final EditText info=(EditText)findViewById(R.id.add_event_info);
@@ -70,6 +98,8 @@ public class UpdateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 JSONObject json=new JSONObject();
+                openDateActivity(view);
+
                 try
                 {
                     json.put("event_id",id.getText().toString());
@@ -96,6 +126,60 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                return new DatePickerDialog(this,
+                        mDateSetListener,
+                        mYear, mMonth, mDay);
+
+        }
+
+        return null;
+
+    }
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            mYear = year;
+            mMonth = monthOfYear;
+            mDay = dayOfMonth;
+            mEditText.setText(new StringBuilder().append(mYear).append("/").append(mMonth+1).append("/").append(mDay));
+
+        }
+
+    };
+
+    public void openDateActivity(View view) {
+        JSONObject obj = new JSONObject();
+        String month = "";
+        String day = "";
+        if(mMonth<10)
+        {
+            month = "0"+String.valueOf(mMonth+1);
+        }
+        else
+        {
+            month = String.valueOf(mMonth);
+        }
+        if(mDay<10)
+        {
+            day = "0"+String.valueOf(mDay);
+        }
+        else
+        {
+            day = String.valueOf(mDay);
+        }
+        String dateFormat = String.valueOf(mYear)+"-"+month+"-"+day;
+        EditText date=(EditText)findViewById(R.id.add_event_date);
+        date.setText(dateFormat);
+
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

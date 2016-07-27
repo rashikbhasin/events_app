@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +27,11 @@ public class ReadActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
         Intent intent=getIntent();
        mReadEvent=(Events)intent.getSerializableExtra("key");
+
+//        View view=(View)findViewById(R.id.read_layout);
+//        view.setElevation(5);
 
         JSONObject json=new JSONObject();
 

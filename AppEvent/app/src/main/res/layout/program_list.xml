@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/textViewName"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/read_text_size"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,7 +26,8 @@
         android:id="@+id/textViewInfo"
         android:layout_below="@+id/textViewName"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/read_text_size"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,7 +35,8 @@
         android:id="@+id/textViewDate"
         android:layout_below="@+id/textViewInfo"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/read_text_size"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,7 +44,8 @@
         android:id="@+id/textViewVenue"
         android:layout_below="@+id/textViewDate"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/read_text_size"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,6 +53,7 @@
         android:id="@+id/textViewCity"
         android:layout_below="@+id/textViewVenue"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/read_text_size"/>
 
 </RelativeLayout>

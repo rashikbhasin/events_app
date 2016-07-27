@@ -1,8 +1,5 @@
 package com.example.cfit010.myapplicationevent;
 
-/**
- * Created by cfit004 on 25/7/16.
- */
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class SimpleAdapter extends ArrayAdapter<Events> {
@@ -49,12 +47,42 @@ public class SimpleAdapter extends ArrayAdapter<Events> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.list_item, null);
         }
-
+        String date="";
         Events c = itemList.get(position);
         TextView text = (TextView) v.findViewById(R.id.name);
-       // TextView id = (TextView) v.findViewById(R.id.id1);
+        TextView event_date = (TextView) v.findViewById(R.id.event_date);
+        TextView event_status = (TextView) v.findViewById(R.id.event_status);
         text.setText(c.getName());
-       // id.setText(c.getId());
+
+        String str=new String(c.getDate());
+        String yyyy=str.substring(0, 4);
+        int year=Integer.parseInt(str.substring(0, 4));
+        // String mm1=str.substring(5, 7);
+        int mm=Integer.parseInt(str.substring(5, 7));
+        String dd=str.substring(8, 10);
+        int dd1=Integer.parseInt(str.substring(8, 10));
+        String[] month={"JAN","FEB","MAR","APR","MAY","JUNE","JULY","AUG","SEPT","OCT","NOV","DEC"};
+
+        date=dd+", "+month[mm-1]+", "+yyyy;
+        event_date.setText(date);
+        String startDateString = c.getDate();
+        int mYear,mMonth,mDay;
+        Calendar c1=Calendar.getInstance();
+        mYear=c1.get(Calendar.YEAR);
+        mMonth=c1.get(Calendar.MONTH)+1;
+        mDay=c1.get(Calendar.DAY_OF_MONTH);
+
+
+        if(mYear>year)
+            event_status.setText("Completed");
+        else if (mYear >= year && mMonth>mm)
+            event_status.setText("Completed");
+        else if (mYear >= year && mMonth >= mm && mDay>dd1)
+            event_status.setText("Completed");
+        else if (mYear == year && mMonth == mm && mDay == dd1)
+            event_status.setText("Ongoing");
+        else
+            event_status.setText("Upcoming");
 
         return v;
 

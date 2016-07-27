@@ -55,14 +55,14 @@ public class AddActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        Log.d("Heree","At top");
+//        Log.d("Heree","At top");
         Calendar c=Calendar.getInstance();
         mYear=c.get(Calendar.YEAR);
         mMonth=c.get(Calendar.MONTH);
         mDay=c.get(Calendar.DAY_OF_MONTH);
         mEditText = (EditText) findViewById(R.id.add_event_date);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        mEditText.setText(sdf.format(c.getTime()));
+       // mEditText.setText(sdf.format(c.getTime()));
 
         mEditText.setOnClickListener(new View.OnClickListener() {
 
