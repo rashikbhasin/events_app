@@ -43,18 +43,30 @@ public class CustomAdaptor extends BaseAdapter {
           //  LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.program_list, null);
         //TextView textViewId = (TextView) listViewItem.findViewById(R.id.textViewId);
-        TextView textViewName = (TextView) listViewItem.findViewById(R.id.textViewName);
-        TextView textViewInfo = (TextView) listViewItem.findViewById(R.id.textViewInfo);
-        TextView textViewDate = (TextView) listViewItem.findViewById(R.id.textViewDate);
-        TextView textViewVenue = (TextView) listViewItem.findViewById(R.id.textViewVenue);
-        TextView textViewCity = (TextView) listViewItem.findViewById(R.id.textViewCity);
+        TextView name_head = (TextView) listViewItem.findViewById(R.id.name_head);
+        TextView info_head = (TextView) listViewItem.findViewById(R.id.info_head);
+        TextView date_head = (TextView) listViewItem.findViewById(R.id.date_head);
+        TextView venue_head = (TextView) listViewItem.findViewById(R.id.venue_head);
+        TextView city_head = (TextView) listViewItem.findViewById(R.id.city_head);
+
+        TextView read_name = (TextView) listViewItem.findViewById(R.id.read_name);
+        TextView read_info = (TextView) listViewItem.findViewById(R.id.read_info);
+        TextView read_date = (TextView) listViewItem.findViewById(R.id.read_date);
+        TextView read_venue = (TextView) listViewItem.findViewById(R.id.read_venue);
+        TextView read_city = (TextView) listViewItem.findViewById(R.id.read_city);
+
+        name_head.setText("Name:");
+        info_head.setText("Info:");
+        date_head.setText("Date:");
+        venue_head.setText("Venue:");
+        city_head.setText("City:");
 
        // textViewId.setText(data.get(position).getId());
-        textViewName.setText("EVENT NAME  : "+data.get(position).getName());
-        textViewInfo.setText("EVENT INFO     : "+data.get(position).getInfo());
-        textViewDate.setText("EVENT DATE    : "+data.get(position).getDate());
-        textViewVenue.setText("EVENT VENUE : "+data.get(position).getVenue());
-        textViewCity.setText("EVENT CITY      : "+data.get(position).getCity());
+        read_name.setText(data.get(position).getName());
+        read_info.setText(data.get(position).getInfo());
+        read_date.setText(data.get(position).getDate());
+        read_venue.setText(data.get(position).getVenue());
+        read_city.setText(data.get(position).getCity());
 
 
         return  listViewItem;
