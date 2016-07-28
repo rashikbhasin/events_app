@@ -48,9 +48,8 @@ public class SimpleAdapter extends ArrayAdapter<Events> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.list_item, null);
         }
+
         String date="";
-
-
 
         Events c = itemList.get(position);
         TextView text = (TextView) v.findViewById(R.id.name);
@@ -58,31 +57,30 @@ public class SimpleAdapter extends ArrayAdapter<Events> {
         TextView event_status = (TextView) v.findViewById(R.id.event_status);
         text.setText(c.getName());
 
-        String str=new String(c.getDate());
-        String yyyy=str.substring(0, 4);
-        int year=Integer.parseInt(str.substring(0, 4));
+        String str = new String(c.getDate());
+        String yyyy = str.substring(0, 4);
+        int year = Integer.parseInt(str.substring(0, 4));
         // String mm1=str.substring(5, 7);
-        int mm=Integer.parseInt(str.substring(5, 7));
-        String dd=str.substring(8, 10);
-        int dd1=Integer.parseInt(str.substring(8, 10));
-        String[] month={"JAN","FEB","MAR","APR","MAY","JUNE","JULY","AUG","SEPT","OCT","NOV","DEC"};
+        int mm = Integer.parseInt(str.substring(5, 7));
+        String dd = str.substring(8, 10);
+        int dd1 = Integer.parseInt(str.substring(8, 10));
+        String[] month = {"JAN", "FEB", "MAR", "APR", "MAY", "JUNE", "JULY", "AUG", "SEPT", "OCT", "NOV", "DEC"};
 
-        date=dd+", "+month[mm-1]+", "+yyyy;
+        date = dd + ", " + month[mm - 1] + ", " + yyyy;
         event_date.setText(date);
         String startDateString = c.getDate();
-        int mYear,mMonth,mDay;
-        Calendar c1=Calendar.getInstance();
-        mYear=c1.get(Calendar.YEAR);
-        mMonth=c1.get(Calendar.MONTH)+1;
-        mDay=c1.get(Calendar.DAY_OF_MONTH);
+        int mYear, mMonth, mDay;
+        Calendar c1 = Calendar.getInstance();
+        mYear = c1.get(Calendar.YEAR);
+        mMonth = c1.get(Calendar.MONTH) + 1;
+        mDay = c1.get(Calendar.DAY_OF_MONTH);
 
 
-        if(mYear>year)
+        if (mYear > year)
             event_status.setText("Completed");
-//            event_status.setTextColor(getResources().getColor(R.colors.colorPrimary));
         else if (mYear >= year && mMonth>mm)
             event_status.setText("Completed");
-        else if (mYear >= year && mMonth >= mm && mDay>dd1)
+        else if (mYear >= year && mMonth >= mm && mDay > dd1)
             event_status.setText("Completed");
         else if (mYear == year && mMonth == mm && mDay == dd1)
             event_status.setText("Ongoing");
@@ -100,6 +98,5 @@ public class SimpleAdapter extends ArrayAdapter<Events> {
     public void setItemList(List<Events> itemList) {
         this.itemList = itemList;
     }
-
 
 }
