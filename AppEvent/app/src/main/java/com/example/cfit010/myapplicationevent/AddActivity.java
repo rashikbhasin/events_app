@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cfit010.myapplicationevent.activities.DatePickerFragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,30 +71,33 @@ public class AddActivity extends AppCompatActivity {
         mMonth=c.get(Calendar.MONTH);
         mDay=c.get(Calendar.DAY_OF_MONTH);
         mEditText = (EditText) findViewById(R.id.add_event_date);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
        // mEditText.setText(sdf.format(c.getTime()));
 
 
         mIb.setOnClickListener(new View.OnClickListener() {
 
+                @Override
+                public void onClick(View v) {
+                    showDatePicker();
+                }
 
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                showDialog(DATE_DIALOG_ID);
-
-            }
         });
 
         mEditText.setOnClickListener(new View.OnClickListener() {
 
-
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                showDialog(DATE_DIALOG_ID);
-
+                showDatePicker();
             }
+
+//            @Override
+//            public void onClick(View v) {
+//                // TODO Auto-generated method stub
+//                showDialog(DATE_DIALOG_ID);
+//
+//            }
         });
 
 
@@ -157,31 +162,67 @@ public class AddActivity extends AppCompatActivity {
         });
     }
 
+//
+//    protected Dialog onCreateDialog(int id) {
+//        switch (id) {
+//            case DATE_DIALOG_ID:
+//                return new DatePickerDialog(this,
+//                        mDateSetListener,
+//                        mYear, mMonth, mDay);
+//
+//        }
+//
+//        return null;
+//
+//    }
+//
+//    private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+//
+//        public void onDateSet(DatePicker view, int year, int monthOfYear,
+//                              int dayOfMonth) {
+//            mYear = year;
+//            mMonth = monthOfYear;
+//            mDay = dayOfMonth;
+//            mEditText.setText(new StringBuilder().append(mYear).append("/").append(mMonth+1).append("/").append(mDay));
+//
+//        }
+//
+//    };
 
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case DATE_DIALOG_ID:
-                return new DatePickerDialog(this,
-                        mDateSetListener,
-                        mYear, mMonth, mDay);
 
-        }
-
-        return null;
-
+    private void showDatePicker() {
+        DatePickerFragment date = new DatePickerFragment();
+        /**
+         * Set Up Current Date Into dialog
+         */
+        Calendar calender = Calendar.getInstance();
+        Bundle args = new Bundle();
+        args.putInt("year", calender.get(Calendar.YEAR));
+        args.putInt("month", calender.get(Calendar.MONTH));
+        args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
+        date.setArguments(args);
+        /**
+         * Set Call back to capture selected date
+         */
+        date.setCallBack(ondate);
+        date.show(getSupportFragmentManager(), "Date Picker");
     }
 
-    private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-
+    DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
+        @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
+
             mYear = year;
-            mMonth = monthOfYear;
+            mMonth = monthOfYear+1;
             mDay = dayOfMonth;
-            mEditText.setText(new StringBuilder().append(mYear).append("/").append(mMonth+1).append("/").append(mDay));
-
+            mEditText.setText(new StringBuilder().append(mYear).append("/").append(mMonth).append("/").append(mDay));
+               /* Toast.makeText(
+                        DateActivity.this,
+                        String.valueOf(year) + "-" + String.valueOf(monthOfYear)
+                                + "-" + String.valueOf(dayOfMonth),
+                        Toast.LENGTH_LONG).show();*/
         }
-
     };
 
     public void openDateActivity(View view) {
