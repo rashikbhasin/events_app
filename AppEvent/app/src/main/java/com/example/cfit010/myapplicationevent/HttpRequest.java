@@ -10,7 +10,7 @@ import java.net.URL;
 public class HttpRequest {
 
 
-    public String url = "http://192.168.3.7:8080";
+    public String url = "http://192.168.3.14:8080";
 
    /* public String doGet(String url_request)
     {

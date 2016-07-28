@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 public class PostAsyncTask extends AsyncTask<String ,Void,String> {
@@ -34,9 +33,15 @@ public class PostAsyncTask extends AsyncTask<String ,Void,String> {
         ArrayList<DataModel> data;// = new ArrayList<>();
 
         data = (ArrayList<DataModel>) json_obj.parse(result);
+        String output;
         if(data.isEmpty()) {
-            String output = "No Result";
+            output = "No Result";
             this.mTextView.setText(output);
+        }
+        else
+        {
+            output = "";
+            this.mTextView.setText(" ");
         }
         CustomAdaptor adapter=new CustomAdaptor(this.mContext, data);
         mListData.setAdapter(adapter);

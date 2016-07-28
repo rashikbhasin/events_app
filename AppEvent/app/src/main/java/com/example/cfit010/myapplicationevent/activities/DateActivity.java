@@ -1,8 +1,8 @@
 package com.example.cfit010.myapplicationevent.activities;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +11,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.cfit010.myapplicationevent.HttpRequest;
 import com.example.cfit010.myapplicationevent.PostAsyncTask;
 import com.example.cfit010.myapplicationevent.R;
@@ -22,37 +24,43 @@ import java.util.Calendar;
 
 public class DateActivity extends AppCompatActivity {
 
-    static final int DATE_DIALOG_ID = 0;
     private int mYear,mMonth,mDay;
     EditText mEditText;
+   // private ImageButton mIb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_activity);
-
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+       // mIb = (ImageButton) findViewById(R.id.calenderButton);
 
         Calendar c=Calendar.getInstance();
         mYear=c.get(Calendar.YEAR);
-        mMonth=c.get(Calendar.MONTH);
+        mMonth=c.get(Calendar.MONTH)+1;
         mDay=c.get(Calendar.DAY_OF_MONTH);
         //String dateFormat = "dd/MM/yyyy";
         mEditText = (EditText) findViewById(R.id.date);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        mEditText.setText(sdf.format(c.getTime()));
+        /*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        mEditText.setText(sdf.format(c.getTime()));*/
+        mEditText.setText(new StringBuilder().append(mYear).append("/").append(mMonth).append("/").append(mDay));
 
-        mEditText.setOnClickListener(new View.OnClickListener() {
-
+        findViewById(R.id.date).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                showDialog(DATE_DIALOG_ID);
+                showDatePicker();
+            }
+        });
 
+        findViewById(R.id.calenderButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
             }
         });
 
@@ -61,29 +69,39 @@ public class DateActivity extends AppCompatActivity {
     }
 
 
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case DATE_DIALOG_ID:
-                return new DatePickerDialog(this,
-                        mDateSetListener,
-                        mYear, mMonth, mDay);
-
-        }
-
-        return null;
-
+    private void showDatePicker() {
+        DatePickerFragment date = new DatePickerFragment();
+        /**
+         * Set Up Current Date Into dialog
+         */
+        Calendar calender = Calendar.getInstance();
+        Bundle args = new Bundle();
+        args.putInt("year", calender.get(Calendar.YEAR));
+        args.putInt("month", calender.get(Calendar.MONTH));
+        args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
+        date.setArguments(args);
+        /**
+         * Set Call back to capture selected date
+         */
+        date.setCallBack(ondate);
+        date.show(getSupportFragmentManager(), "Date Picker");
     }
-    private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
+    DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
+        @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
+
             mYear = year;
-            mMonth = monthOfYear;
+            mMonth = monthOfYear+1;
             mDay = dayOfMonth;
-            mEditText.setText(new StringBuilder().append(mDay).append("/").append(mMonth+1).append("/").append(mYear));
-
+            mEditText.setText(new StringBuilder().append(mYear).append("/").append(mMonth).append("/").append(mDay));
+               /* Toast.makeText(
+                        DateActivity.this,
+                        String.valueOf(year) + "-" + String.valueOf(monthOfYear)
+                                + "-" + String.valueOf(dayOfMonth),
+                        Toast.LENGTH_LONG).show();*/
         }
-
     };
 
 
@@ -93,13 +111,13 @@ public class DateActivity extends AppCompatActivity {
         return true;
     }
 
-    public void openDateActivity(View view) {
+    public void openDateActivitySearch(View view) {
         JSONObject json_obj = new JSONObject();
         String month;
         String day;
-        if(mMonth<10)
+        if(mMonth<10 )
         {
-            month = "0"+String.valueOf(mMonth+1);
+            month = "0"+String.valueOf(mMonth);
         }
         else
         {

@@ -26,4 +26,5 @@
     <string name="add_event_venue">Enter Event Venue</string>
     <string name="add_event_city">Enter Event City</string>
     <string name="action_add">Add</string>
+    <string name="selectdate">Select date</string>
 </resources>
