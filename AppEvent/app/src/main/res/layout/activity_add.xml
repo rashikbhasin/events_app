@@ -56,11 +56,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/add_event_date"
-            android:hint="@string/add_event_date"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/add_event_date"
+                    android:hint="@string/add_event_date"/>
+
+                <ImageButton
+                    android:id="@+id/calenderButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/selectdate"
+                    android:src="@drawable/ic_event_black_24dp"
+                    android:layout_alignBottom="@+id/add_event_date"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="4dp"/>
+
+            </RelativeLayout>
     </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -97,31 +113,155 @@
             android:background="@color/colorPrimary"
             android:layout_margin="@dimen/text_margin"
             />
-        <TextView
+
+        <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/read_name"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/read_info"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/read_date"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/read_venue"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/read_city"
-            />
+            android:layout_height="match_parent"
+            >
+            <TableRow android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_gravity="right">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/name_head"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginLeft="@dimen/left_margin"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/read_name"
+                    android:layout_weight="3"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    />
+            </TableRow>
+
+
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/info_head"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginLeft="@dimen/left_margin"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/read_info"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_weight="3"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date_head"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginLeft="@dimen/left_margin"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/read_date"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_weight="3"
+                    />
+            </TableRow
+                >
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/venue_head"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginLeft="@dimen/left_margin"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/read_venue"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_weight="3"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/city_head"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginLeft="@dimen/left_margin"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/read_city"
+                    android:textSize="@dimen/read_text_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_weight="3"
+                    />
+            </TableRow>
+
+        </TableLayout>
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/read_name"-->
+            <!--/>-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/read_info"-->
+            <!--/>-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/read_date"-->
+            <!--/>-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/read_venue"-->
+            <!--/>-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/read_city"-->
+            <!--/>-->
 
     </LinearLayout>
 </ScrollView>

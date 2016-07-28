@@ -34,8 +34,13 @@ public class PostAsyncTask extends AsyncTask<String ,Void,String> {
         ArrayList<DataModel> data;// = new ArrayList<>();
 
         data = (ArrayList<DataModel>) json_obj.parse(result);
+        String output;
         if(data.isEmpty()) {
-            String output = "No Result";
+            output = "No Result";
+            this.mTextView.setText(output);
+        }
+        else {
+            output = "";
             this.mTextView.setText(output);
         }
         CustomAdaptor adapter=new CustomAdaptor(this.mContext, data);

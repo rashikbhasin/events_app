@@ -3,6 +3,7 @@ package com.example.cfit010.myapplicationevent;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +23,17 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
+import java.util.logging.Handler;
 
 public class AddActivity extends AppCompatActivity {
 
     static final int DATE_DIALOG_ID = 0;
     private int mYear,mMonth,mDay;
     EditText mEditText;
+    private ImageButton mIb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,8 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mIb = (ImageButton) findViewById(R.id.calenderButton);
 
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
@@ -63,6 +71,18 @@ public class AddActivity extends AppCompatActivity {
         mEditText = (EditText) findViewById(R.id.add_event_date);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
        // mEditText.setText(sdf.format(c.getTime()));
+
+
+        mIb.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                showDialog(DATE_DIALOG_ID);
+
+            }
+        });
 
         mEditText.setOnClickListener(new View.OnClickListener() {
 
@@ -117,11 +137,22 @@ public class AddActivity extends AppCompatActivity {
                 TextView show_venue=(TextView)findViewById(R.id.read_venue);
                 TextView show_city=(TextView)findViewById(R.id.read_city);
 
-                PostJson postJson=new PostJson(json,show_name,show_info,show_date,show_venue,show_city);
+                TextView name_head=(TextView)findViewById(R.id.name_head);
+                TextView info_head=(TextView)findViewById(R.id.info_head);
+                TextView date_head=(TextView)findViewById(R.id.date_head);
+                TextView venue_head=(TextView)findViewById(R.id.venue_head);
+                TextView city_head=(TextView)findViewById(R.id.city_head);
+                PostJson postJson=new PostJson(json,show_name,show_info,show_date,show_venue,show_city,name_head,info_head,date_head,venue_head,city_head);
                 postJson.execute(serverURL);
-                Toast.makeText(getApplicationContext(), "This event has been added!!",Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(AddActivity.this,MainActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "This event has been added.Redirecting To Home Screen",Toast.LENGTH_LONG).show();
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        // this code will be executed after 2 seconds
+                        Intent intent=new Intent(AddActivity.this,MainActivity.class);
+                        startActivity(intent);
+                    }
+                }, 5000);
             }
         });
     }
@@ -157,13 +188,13 @@ public class AddActivity extends AppCompatActivity {
         JSONObject obj = new JSONObject();
         String month = "";
         String day = "";
-        if(mMonth<10)
+        if(mMonth<9)
         {
             month = "0"+String.valueOf(mMonth+1);
         }
         else
         {
-            month = String.valueOf(mMonth);
+            month = String.valueOf(mMonth+1);
         }
         if(mDay<10)
         {

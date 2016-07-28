@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresPermission;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -65,6 +66,10 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
 
 
 

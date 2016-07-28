@@ -1,6 +1,7 @@
 package com.example.cfit010.myapplicationevent;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,9 @@ public class SimpleAdapter extends ArrayAdapter<Events> {
             v = inflater.inflate(R.layout.list_item, null);
         }
         String date="";
+
+
+
         Events c = itemList.get(position);
         TextView text = (TextView) v.findViewById(R.id.name);
         TextView event_date = (TextView) v.findViewById(R.id.event_date);
@@ -75,6 +79,7 @@ public class SimpleAdapter extends ArrayAdapter<Events> {
 
         if(mYear>year)
             event_status.setText("Completed");
+//            event_status.setTextColor(getResources().getColor(R.colors.colorPrimary));
         else if (mYear >= year && mMonth>mm)
             event_status.setText("Completed");
         else if (mYear >= year && mMonth >= mm && mDay>dd1)

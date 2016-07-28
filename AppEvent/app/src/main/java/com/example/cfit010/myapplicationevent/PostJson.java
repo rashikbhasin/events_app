@@ -21,14 +21,25 @@ class PostJson extends AsyncTask<String ,Void,String> {
     private TextView date;
     private TextView venue;
     private TextView city;
+    private TextView name_head;
+    private TextView info_head;
+    private TextView date_head;
+    private TextView venue_head;
+    private TextView city_head;
 
-    public PostJson(JSONObject json, TextView name, TextView info,TextView date,TextView venue,TextView city) {
+
+    public PostJson(JSONObject json, TextView name, TextView info,TextView date,TextView venue,TextView city,TextView nhead,TextView dhead,TextView ihead,TextView vhead,TextView chead) {
         this.mJson = json;
         this.name=name;
         this.info=info;
         this.date=date;
         this.venue=venue;
         this.city=city;
+        this.city_head=chead;
+        this.name_head=nhead;
+        this.date_head=dhead;
+        this.info_head=ihead;
+        this.venue_head=vhead;
     }
 
     protected String doInBackground(String... urls) {
@@ -73,11 +84,16 @@ class PostJson extends AsyncTask<String ,Void,String> {
                 return;
             } else {
 //                data = data + "Name:  " + j.getString("name") + "\n" + "Event Info:  " + j.getString("event_info") + "\n" + "Date:  " + j.getString("date") + "\n" + "Venue:  " + j.getString("venue") + "\n" + "City:  " + j.getString("city");
-                name.setText("Name: "+j.getString("name"));
-                info.setText("Info: "+j.getString("event_info"));
-                date.setText("Date: "+j.getString("date"));
-                venue.setText("Venue: "+j.getString("venue"));
-                city.setText("City: "+j.getString("city"));
+                name_head.setText("Name:");
+                info_head.setText("Info:");
+                date_head.setText("Date:");
+                venue_head.setText("Venue:");
+                city_head.setText("City:");
+                name.setText(j.getString("name"));
+                info.setText(j.getString("event_info"));
+                date.setText(j.getString("date"));
+                venue.setText(j.getString("venue"));
+                city.setText(j.getString("city"));
 
             }
         } catch (JSONException e) {

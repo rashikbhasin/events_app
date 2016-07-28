@@ -20,6 +20,15 @@
         android:ems="10"
         android:inputType="date" />
 
+    <ImageButton
+        android:id="@+id/calenderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/date"
+        android:layout_toRightOf="@+id/date"
+        android:contentDescription="@string/selectdate"
+        android:src="@drawable/calendar_icon" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

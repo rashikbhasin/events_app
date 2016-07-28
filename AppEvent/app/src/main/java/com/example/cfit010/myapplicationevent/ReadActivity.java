@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class ReadActivity extends AppCompatActivity {
 
@@ -54,7 +55,13 @@ public class ReadActivity extends AppCompatActivity {
         TextView show_venue=(TextView)findViewById(R.id.read_venue);
         TextView show_city=(TextView)findViewById(R.id.read_city);
 
-        PostJson postJson=new PostJson(json,show_name,show_info,show_date,show_venue,show_city);
+        TextView name_head=(TextView)findViewById(R.id.name_head);
+        TextView info_head=(TextView)findViewById(R.id.info_head);
+        TextView date_head=(TextView)findViewById(R.id.date_head);
+        TextView venue_head=(TextView)findViewById(R.id.venue_head);
+        TextView city_head=(TextView)findViewById(R.id.city_head);
+
+        PostJson postJson=new PostJson(json,show_name,show_info,show_date,show_venue,show_city,name_head,info_head,date_head,venue_head,city_head);
         postJson.execute(serverURL);
     }
 
@@ -124,7 +131,7 @@ public class ReadActivity extends AppCompatActivity {
 
         }
         String serverURL = (new HttpRequest().url)+"/deleted";
-        PostJson postJson = new PostJson(json, null,null,null,null,null);
+        PostJson postJson = new PostJson(json, null,null,null,null,null,null,null,null,null,null);
         postJson.execute(serverURL);
         Intent intent=new Intent(ReadActivity.this,MainActivity.class);
         startActivity(intent);

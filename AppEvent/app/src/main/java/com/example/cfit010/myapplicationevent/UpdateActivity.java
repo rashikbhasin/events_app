@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,9 @@ public class UpdateActivity extends AppCompatActivity {
     static final int DATE_DIALOG_ID = 0;
     private int mYear,mMonth,mDay;
     EditText mEditText;
+    int flag=0;
+    private ImageButton mIb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,8 @@ public class UpdateActivity extends AppCompatActivity {
 
         findViewById(R.id.add_event_id).setVisibility(View.GONE);
 
+
+        mIb = (ImageButton) findViewById(R.id.calenderButton);
 
         Intent intent=getIntent();
         final String received=intent.getStringExtra("data");
@@ -58,6 +65,17 @@ public class UpdateActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         JSONObject reader;
+
+        mIb.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                showDialog(DATE_DIALOG_ID);
+
+            }
+        });
 
         mEditText.setOnClickListener(new View.OnClickListener() {
 
@@ -120,7 +138,36 @@ public class UpdateActivity extends AppCompatActivity {
                 TextView show_info=(TextView)findViewById(R.id.read_info);
                 TextView show_venue=(TextView)findViewById(R.id.read_venue);
                 TextView show_city=(TextView)findViewById(R.id.read_city);
-                PostJson postJson=new PostJson(json,show_name,show_info,show_date,show_venue,show_city);
+
+                TextView name_head=(TextView)findViewById(R.id.name_head);
+                TextView info_head=(TextView)findViewById(R.id.info_head);
+                TextView date_head=(TextView)findViewById(R.id.date_head);
+                TextView venue_head=(TextView)findViewById(R.id.venue_head);
+                TextView city_head=(TextView)findViewById(R.id.city_head);
+//                try{
+//                    if(reader.getString("name").equals(id.getText().toString()) ||reader.getString("info").equals(info.getText().toString()) || reader.getString("date").equals(name.getText().toString()) || reader.getString("venue").equals(venue.getText().toString()) || reader.getString("city").equals(city.getText().toString()))
+//                    {
+//                        Toast.makeText(getApplicationContext(), "You Didn't Updated Anything!!",Toast.LENGTH_LONG).show();
+//                        return ;
+//                    }
+//
+//                    else{
+//                        Log.d("Hereee",name.getText().toString());
+//                        Log.d("Hereee",venue.getText().toString());
+//                        Log.d("Hereee",info.getText().toString());
+//                        Log.d("Hereee",date.getText().toString());
+//                        Log.d("Hereee",city.getText().toString());
+//                        PostJson postJson=new PostJson(json,show_name,show_info,show_date,show_venue,show_city,name_head,info_head,date_head,venue_head,city_head);
+//                        postJson.execute(serverURL);
+//                    }
+//                }
+//                catch(JSONException e)
+//                {
+//                    Toast.makeText(getApplicationContext(), "JSON Exception",Toast.LENGTH_LONG).show();
+//                    return ;
+//                }
+
+                PostJson postJson=new PostJson(json,show_name,show_info,show_date,show_venue,show_city,name_head,info_head,date_head,venue_head,city_head);
                 postJson.execute(serverURL);
 
             }
@@ -145,6 +192,7 @@ public class UpdateActivity extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
+            flag=1;
             mYear = year;
             mMonth = monthOfYear;
             mDay = dayOfMonth;
@@ -155,28 +203,28 @@ public class UpdateActivity extends AppCompatActivity {
     };
 
     public void openDateActivity(View view) {
-        JSONObject obj = new JSONObject();
-        String month = "";
-        String day = "";
-        if(mMonth<10)
-        {
-            month = "0"+String.valueOf(mMonth+1);
+//        JSONObject obj = new JSONObject();
+        if(flag==1) {
+            String month = "";
+            String day = "";
+            if (mMonth < 9) {
+                month = "0" + String.valueOf(mMonth + 1);
+            } else {
+                month = String.valueOf(mMonth+1);
+            }
+            if (mDay < 10) {
+                day = "0" + String.valueOf(mDay);
+            } else {
+                day = String.valueOf(mDay);
+            }
+            String dateFormat = String.valueOf(mYear) + "-" + month + "-" + day;
+            EditText date = (EditText) findViewById(R.id.add_event_date);
+            date.setText(dateFormat);
         }
         else
         {
-            month = String.valueOf(mMonth);
+            return;
         }
-        if(mDay<10)
-        {
-            day = "0"+String.valueOf(mDay);
-        }
-        else
-        {
-            day = String.valueOf(mDay);
-        }
-        String dateFormat = String.valueOf(mYear)+"-"+month+"-"+day;
-        EditText date=(EditText)findViewById(R.id.add_event_date);
-        date.setText(dateFormat);
 
     }
 

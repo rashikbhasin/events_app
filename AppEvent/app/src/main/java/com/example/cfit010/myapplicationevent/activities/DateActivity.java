@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.cfit010.myapplicationevent.HttpRequest;
@@ -25,11 +26,13 @@ public class DateActivity extends AppCompatActivity {
     static final int DATE_DIALOG_ID = 0;
     private int mYear,mMonth,mDay;
     EditText mEditText;
+    private ImageButton mIb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_activity);
+        mIb = (ImageButton) findViewById(R.id.calenderButton);
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -43,7 +46,18 @@ public class DateActivity extends AppCompatActivity {
         //String dateFormat = "dd/MM/yyyy";
         mEditText = (EditText) findViewById(R.id.date);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        mEditText.setText(sdf.format(c.getTime()));
+//        mEditText.setText(sdf.format(c.getTime()));
+
+        mIb.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                showDialog(DATE_DIALOG_ID);
+
+            }
+        });
 
         mEditText.setOnClickListener(new View.OnClickListener() {
 
@@ -97,13 +111,13 @@ public class DateActivity extends AppCompatActivity {
         JSONObject json_obj = new JSONObject();
         String month;
         String day;
-        if(mMonth<10)
+        if(mMonth<9)
         {
             month = "0"+String.valueOf(mMonth+1);
         }
         else
         {
-            month = String.valueOf(mMonth);
+            month = String.valueOf(mMonth+1);
         }
         if(mDay<10)
         {
